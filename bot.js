@@ -20,39 +20,17 @@ const gif = require("gif-search");
 
 const client = new Discord.Client({disableEveryone: true});
 
-const prefix = "!";
-/////////////////////////
-////////////////////////
+const prefix = "r";
 
-client.on('message', async msg =>{
-	if (msg.author.bot) return undefined;
-    if (!msg.content.startsWith(prefix)) return undefined;
-    
-    let args = msg.content.split(' ');
-
-	let command = msg.content.toLowerCase().split(" ")[0];
-	command = command.slice(prefix.length)
-
-    if(command === `ping`) {
-    let embed = new Discord.RichEmbed()
-    .setColor(3447003)
-    .setTitle("Pong!!")
-    .setDescription(`${client.ping} ms,`)
-    .setFooter(`Requested by | ${msg.author.tag}`);
-    msg.delete().catch(O_o=>{})
-    msg.channel.send(embed);
-    }
-});
-/////////////////////////
-/////////////////////////
 client.on('message', async msg => { 
 	if (msg.author.bot) return undefined;
-    if (!msg.content.startsWith(prefix)) return undefined;
-    
+      if (!msg.content.startsWith(prefix)) return undefined;
+    if(!message.author.id === '426489458985140226') return message.channel.send('you are not the bot admin');
+
     const args = msg.content.split(' ');
 	const searchString = args.slice(1).join(' ');
     
-	const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
+	const url = args[1] ? args[1].replace(/<(.+)>/g, '=') : '';
 	const serverQueue = queue.get(msg.guild.id);
 
 	let command = msg.content.toLowerCase().split(" ")[0];
@@ -284,22 +262,60 @@ client.on('message', message => {
         .addField('resume', 'تكملة الاغنية')
         .addField('queue', 'اظهار قائمة التشغيل')
         .addField('np', 'اظهار الاغنية اللي انت مشغلها حاليا')
-        .setFooter('(general_commands) لاظهار الاوامر العامة')
+	    .addField('sw', 'لتغيير حالة البوت ')
+    	 .addField('np', 'اظهار الاغنية اللي انت مشغلها حاليا')
+       
       message.channel.send(helpEmbed);
     }
 });
 
-client.on('message', message => {
-    if (message.content === 'general_commands') {
-        let helpEmbed = new Discord.RichEmbed()
-        .setTitle('**أوامر عامة...**')
-        .addField('avatar', "افاتار الشخص المطلوب")
-        .addField('gif', 'البحث عن جيف انت تطلبه')
-        .addField('ping', 'معرفة ping البوت')
-        .setFooter('المزيد قريبا ان شاء الله!')
-      message.channel.send(helpEmbed);
-    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+KiNg66S.on('message', message => {
+  if (!message.content.startsWith(PREFIX)) return;
+  var args = message.content.split(' ').slice(1);
+  var argresult = args.join(' ');
+  if (message.author.id !== "426489458985140226") return;
+
+  
+  if (message.content.startsWith(PREFIX + 'sw')) {
+  KiNg66S.user.setActivity(argresult, {type: 'WATCHING'})
+     console.log('test' + argresult);
+    message.channel.sendMessage(`**Watch Now: **${argresult}`)
+} 
+
+ 
+  if (message.content.startsWith(PREFIX + 'sl')) {
+  KiNg66S.user.setActivity(argresult, {type: 'LISTENING'})
+     console.log('test' + argresult);
+    message.channel.sendMessage(`LISTENING Now: **${argresult}`)
+} 
+
+
+if (message.content.startsWith(PREFIX + 'sn')) {
+  KiNg66S.user.setUsername(argresult).then
+      message.channel.sendMessage(`Username Changed To **${argresult}**`)
+  return message.reply("You Can change the username 2 times per hour");
+} 
+
+if (message.content.startsWith(PREFIX + 'sa')) {
+  KiNg66S.user.setAvatar(argresult);
+   message.channel.sendMessage(`Avatar Changed Successfully To **${argresult}**`);
+}
+
+if (message.content.startsWith(PREFIX + 'ss')) {
+  KiNg66S.user.setGame(argresult, "https://www.twitch.tv/KiNg66S");
+     console.log('test' + argresult);
+    message.channel.sendMessage(`**Streaming: **${argresult}`)
+} 
+if (message.content.startsWith(PREFIX + 'sp')) {
+  KiNg66S.user.setGame(argresult);
+     console.log('test' + argresult);
+    message.channel.sendMessage(`Playing: **${argresult}`)
+} 
+
+
+
 });
 
 client.login(process.env.BOT_TOKEN);
-
