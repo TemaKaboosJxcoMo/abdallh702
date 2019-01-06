@@ -25,7 +25,10 @@ const prefix = "r";
 client.on('message', async msg => { 
 	if (msg.author.bot) return undefined;
       if (!msg.content.startsWith(prefix)) return undefined;
-    if(!message.author.id === '426489458985140226') return message.channel.send('you are not the bot admin');
+      if(message.author.id !== "426489458985140226") return;
+    var args = message.content.split(' ').slice(1).join(' ');
+    message.channel.send(args);
+    }
 
     const args = msg.content.split(' ');
 	const searchString = args.slice(1).join(' ');
